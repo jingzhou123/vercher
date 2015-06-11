@@ -1,0 +1,6 @@
+= vercher
+
+Describe your project here
+
+:include:vercher.rdoc
+
