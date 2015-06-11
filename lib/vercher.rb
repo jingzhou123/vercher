@@ -27,6 +27,9 @@ end
 class Differ   
     # files with query string
     def self.compare file1, file2
+        if !file2 or !file1
+            return false    
+        end
         f1 = file1
         if file1.index('v=')
           css_or_js = /(?<=\/)[^\/]*(?=\?)/
@@ -71,7 +74,7 @@ def main filename
             f = File.open path, 'r+'
             $logger.info("current file path: #{path}")
             f.readlines.each do |l|
-                if l =~ /src|href/
+                if l =~ /src|href/ and l =~ /<script|<link/
                   l  = l.gsub(/((?:src|href)\s*=\s*")([^"]*)(")/) do |m|
                     $logger.info('target line detail: ' + l)
                     $logger.info('target file src: ' + $2)
