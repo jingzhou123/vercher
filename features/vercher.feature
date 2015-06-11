@@ -1,4 +1,12 @@
 Feature: Update version recursively
+    Scenario: update a file with version info
+        Given a file named "test.html" with: 
+            """
+            <script src="a.js?v=1"></script>
+            """
+        When I successfully run `vercher update -f a.js`
+        Then the file "test.html" should be update
+
     Scenario: update a directory by its file name
         Given a directory named "test"
         And a file named "test/test.html" with: 
