@@ -19,3 +19,77 @@ Feature: Update version recursively
             """
         When I successfully run `vercher update -f a.js`
 
+        Given a file named "test.html" with: 
+            """
+            <script src="://abc.js"></script>
+            """
+        When I successfully run `vercher update -f abc.js`
+        Then the file "test.html" should contain "v="
+
+        Given a file named "test.html" with: 
+            """
+            <script src="/abc.js"></script>
+            """
+        When I successfully run `vercher update -f abc.js`
+        Then the file "test.html" should contain "v="
+
+        Given a file named "test.html" with: 
+            """
+            <script src="/d/abc.js"></script>
+            """
+        When I successfully run `vercher update -f abc.js`
+        Then the file "test.html" should contain "v="
+
+        Given a file named "test.html" with: 
+            """
+            <script src="${a}/abc.js"></script>
+            """
+        When I successfully run `vercher update -f abc.js`
+        Then the file "test.html" should contain "v="
+
+        Given a file named "test.html" with: 
+            """
+            <link rel="stylesheet" href="abc.css">
+            """
+        When I successfully run `vercher update -f abc.css`
+
+        Given a file named "test.html" with: 
+            """
+            <link rel="stylesheet" href="/abc.css">
+            """
+        When I successfully run `vercher update -f abc.css`
+        Then the file "test.html" should contain "v="
+
+        Given a file named "test.html" with: 
+            """
+            <link rel="stylesheet" href="a/abc.css">
+            """
+        When I successfully run `vercher update -f abc.css`
+        Then the file "test.html" should contain "v="
+
+        Given a file named "test.html" with: 
+            """
+            <link rel="stylesheet" href="://c/abc.css">
+            """
+        When I successfully run `vercher update -f abc.css`
+        Then the file "test.html" should contain "v="
+
+        Given a file named "test.html" with: 
+            """
+            <link rel="stylesheet" href="${a}/c/abc.css">
+            """
+        When I successfully run `vercher update -f abc.css`
+        Then the file "test.html" should contain "v="
+
+
+
+
+
+
+
+
+
+
+
+
+

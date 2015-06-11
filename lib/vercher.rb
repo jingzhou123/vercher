@@ -20,6 +20,7 @@ class Versioner
         else
             ver += '?v=' + latest.to_s
         end
+        $logger.info('refresh result: ' + ver)
         ver
     end
 end
@@ -32,17 +33,32 @@ class Differ
             return false    
         end
         f1 = file1
-        if file1.index('v=')
-            css_or_js = /(?<=\/)[^\/]*(?=\?)/
+        if file1.index('/')
+            if file1.index('v=')
+                css_or_js = /(?<=\/)[^\/]*(?=\?)/
                 f1 = file1.slice(css_or_js)
-            $logger.info('file1 has version')
-        else
-            css_or_js = /(?<=\/)[^\/]*$/
-                f1 = file1.slice(css_or_js) 
-            if f1.nil?
-                f1=''
+                $logger.info('file1 has version')
+            else
+                css_or_js = /(?<=\/)[^\/]*$/
+                    f1 = file1.slice(css_or_js) 
+                if f1.nil?
+                    f1=''
+                end
+                $logger.info('file1 has no version')
             end
-            $logger.info('file1 has no version')
+        else
+            if file1.index('v=')
+                css_or_js = /[^\/]*(?=\?)/
+                f1 = file1.slice(css_or_js)
+                $logger.info('file1 has version')
+            else
+                css_or_js = /[^\/]*$/
+                    f1 = file1.slice(css_or_js) 
+                if f1.nil?
+                    f1=''
+                end
+                $logger.info('file1 has no version')
+            end
         end
         p 'what f1 is: ' + f1
         $logger.info('file2 compared: ' + file2)
@@ -98,4 +114,5 @@ def main filename
             f << f_tmp.read
         end
     end
+    $logger.info('main method completed')
 end
